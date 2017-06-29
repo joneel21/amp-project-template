@@ -44,17 +44,45 @@
 		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', array( 'meta-taxonomy', 'meta-comments-link' ) ) ); ?>
 	</footer>   
 
+    <amp-iframe width="500"
+    height="200"
+    layout="responsive"
+    sandbox="allow-scripts allow-same-origin allow-popups"
+    frameborder="0"
+    src="https://www.google.com/maps/embed/v1/place?q=10000+N+31st+Ave+d411,+Phoenix,+AZ+85051,+USA&key=AIzaSyCNCZ0Twm_HFRaZ5i-FuPDYs3rLwm4_848">
+    </amp-iframe>
+
     <?php if ( is_active_sidebar( 'amp-first-widget' ) ) : ?>
-        <div id="secondary" class="widget-area" role="complementary">
-            <p>Test</p>
+        <div id="col1" class="widget-area" role="complementary">            
             <?php dynamic_sidebar( 'amp-first-widget' ); ?>
         </div>
     <?php endif; ?>
 
     <?php if ( is_active_sidebar( 'amp-second-widget' ) ) : ?>
-        <div id="secondary" class="widget-area" role="complementary">
-            <p>Test</p>
+        <div id="col2" class="widget-area" role="complementary">            
             <?php dynamic_sidebar( 'amp-second-widget' ); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ( is_active_sidebar( 'amp-third-widget' ) ) : ?>
+        <div id="col3" class="widget-area" role="complementary">            
+            <?php dynamic_sidebar( 'amp-third-widget' ); ?>
+        </div>
+    <?php endif; ?>
+    <?php if ( is_active_sidebar( 'sidebar-13' ) ) : ?>
+        <div id="col4" class="widget-area" role="complementary">            
+            <?php dynamic_sidebar( 'sidebar-13' ); ?>
+        </div>
+    <?php endif; ?>
+    <?php if ( is_active_sidebar( 'sidebar-14' ) ) : ?>
+        <div id="col5" class="widget-area" role="complementary">            
+            <?php dynamic_sidebar( 'sidebar-14' ); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ( is_active_sidebar( 'sidebar-15' ) ) : ?>
+        <div id="col6" class="widget-area" role="complementary">            
+            <?php dynamic_sidebar( 'sidebar-15' ); ?>
         </div>
     <?php endif; ?>
 

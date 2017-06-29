@@ -377,3 +377,9 @@ amp-carousel > amp-img > img {
 	position: absolute;
 	right: 16px;
 }
+
+/*Forms*/
+.amp-form-submit-success .user-valid{
+    display: none;
+}
+

@@ -22,8 +22,5 @@ class EXT_AMP_Helper{
             $str = preg_replace('/'.$key.'/', $value, $str);
         }
         return $str;
-    }
-    public function get_option(){
-        return get_option('ext_amp_forms_options');
-    }
+    }   
 }

@@ -4,15 +4,16 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
     private $options;
     private $description;
    
-    public function __construct() {        
-       
+    public function __construct() {       
+      //$this->description = parent::settings_description("Tets");
     }    
+   
     public function ext_amp_forms_settings()
      {               
         add_settings_section(
             'forms_settings_section', // ID
             'Forms Settings', // Title
-            array( $this, 'parent::settings_description' ), // Callback
+            array( $this, 'settings_description' ), // Callback
             'ext_amp_forms_options' // Page
         );  
 
@@ -73,6 +74,13 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
             'ext_amp_forms_options', 
             'forms_settings_section'
         );  
+         add_settings_field(
+            'confirm_msg', 
+            'Confirmation Message', 
+            array( $this, 'confirm_msg_callback' ), 
+            'ext_amp_forms_options', 
+            'forms_settings_section'
+        );
 
     }
 
@@ -83,42 +91,42 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
     public function send_to_callback(){
         $this->options = get_option('ext_amp_forms_options');
         printf(
-            '<input type="text" id="send_to" name="ext_amp_forms_options[send-to]" value="%s" />',
+            '<input type="email" id="send_to" class="ext_input" name="ext_amp_forms_options[send-to]" value="%s" />',
             isset( $this->options['send-to'] ) ? esc_attr( $this->options['send-to']) : ''
         );
     } 
     public function from_name_callback(){
         $this->options = get_option('ext_amp_forms_options');
         printf(
-            '<input type="text" id="from_name" name="ext_amp_forms_options[from-name]" value="%s" />',
+            '<input type="text" id="from_name" class="ext_input" name="ext_amp_forms_options[from-name]" value="%s" />',
             isset( $this->options['from-name'] ) ? esc_attr( $this->options['from-name']) : ''
         );
     }
     public function from_email_callback(){
         $this->options = get_option('ext_amp_forms_options');
         printf(
-            '<input type="text" id="from_email" name="ext_amp_forms_options[from-email]" value="%s" />',
+            '<input type="email" id="from_email" class="ext_input" name="ext_amp_forms_options[from-email]" value="%s" />',
             isset( $this->options['from-email'] ) ? esc_attr( $this->options['from-email']) : ''
         );
     } 
     public function reply_to_callback(){
         $this->options = get_option('ext_amp_forms_options');
         printf(
-            '<input type="text" id="reply_to" name="ext_amp_forms_options[reply-to]" value="%s" />',
+            '<input type="email" id="reply_to" class="ext_input" name="ext_amp_forms_options[reply-to]" value="%s" />',
             isset( $this->options['reply-to'] ) ? esc_attr( $this->options['reply-to']) : ''
         );
     } 
     public function bcc_callback(){
         $this->options = get_option('ext_amp_forms_options');
         printf(
-            '<input type="text" id="bcc" name="ext_amp_forms_options[bcc]" value="%s" />',
+            '<input type="email" id="bcc" class="ext_input" name="ext_amp_forms_options[bcc]" value="%s" />',
             isset( $this->options['bcc'] ) ? esc_attr( $this->options['bcc']) : ''
         );
     } 
     public function subject_callback(){
         $this->options = get_option('ext_amp_forms_options');
         printf(
-            '<input type="text" id="subject" name="ext_amp_forms_options[subject]" value="%s" />',
+            '<input type="text" id="subject" class="ext_input" name="ext_amp_forms_options[subject]" value="%s" />',
             isset( $this->options['subject'] ) ? esc_attr( $this->options['subject']) : ''
         );
     }
@@ -133,13 +141,20 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
             
         $content = parent::raw_str_to_html($content);
 
-        wp_editor( $content, 'message', $settings );
+        wp_editor( $content, 'ext-amp-form-message', $settings );
         
         /*printf(
             '<textarea id="message" cols="25" row="25" name="ext_amp_forms_options[message]">%s</textarea>',
             isset( $this->options['message'] ) ? esc_attr( $this->options['message']) : ''
         );*/
     }    
+    public function confirm_msg_callback(){
+        $this->options = get_option('ext_amp_forms_options');        
+        printf(
+            '<input type="text" id="confirm_msg" class="ext_input_full_width" name="ext_amp_forms_options[confirm-msg]" value="%s" />',
+            isset( $this->options['confirm-msg'] ) ? esc_attr( $this->options['confirm-msg']) : ''
+        );
+    }
     public function sanitize( $input )
     {
         $new_input = array();
@@ -164,6 +179,12 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
         if( isset( $input['message'] ) )
             $new_input['message'] = wp_kses_post( $input['message'] );
 
+        if( isset( $input['confirm-msg'] ) )
+            $new_input['confirm-msg'] = sanitize_text_field( $input['confirm-msg'] );
+
         return $new_input;
+    }
+     public function settings_description(){
+        echo "Mail settings for the recipient after form submission.";
     }
 }

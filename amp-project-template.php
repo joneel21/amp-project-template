@@ -112,7 +112,9 @@ class EXT_AMP_Settings_Page
         add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
         add_action( 'admin_init', array( $this, 'ext_amp_general_options' ) );
         add_action( 'admin_init', array( $this, 'ext_amp_forms_options' ) );
-        add_action( 'admin_init', array( $this, 'ext_amp_reg_forms' ) );
+        add_action( 'admin_init', array( $this, 'ext_amp_reg_forms' ) );  
+
+        add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );      
         
     }
      public function bootstrap(){
@@ -140,18 +142,12 @@ class EXT_AMP_Settings_Page
         $this->class->ext_amp_forms_settings();
     }
     public function deactivate(){
-        delete_option('ext_amp_tmpl_settings');
+        /*delete_option('ext_amp_tmpl_settings');
         delete_option('ext_amp_reg_general_options');
+        delete_option('ext_amp_forms_options');*/
     }
     
     public function init_options(){
-
-        if( false == get_option( 'ext_amp_general_options' ) ) {  
-            add_option( 'ext_amp_general_options' );
-        }    
-        if( false == get_option( 'ext_amp_forms_options' ) ) {  
-            add_option( 'ext_amp_forms_options' );
-        }
 
         //set default value
         $default_values = array(
@@ -164,11 +160,26 @@ class EXT_AMP_Settings_Page
             'amp-analytics-code' => ''
         );
         
-        
-        add_option('ext_amp_tmpl_settings', $default_values);
-        add_option('ext_amp_tmpl_forms');
+        $default_form_values = array(
+            'send-to' => get_bloginfo('admin_email'),
+            'from-name' => get_bloginfo('name'),
+            'from-email' => get_bloginfo('admin_email'),
+            'reply-to' => '',
+            'bcc' => '',
+            'subject' => 'Contact Form Inquiry via AMP - {Name}',
+            'message' => 'G\'Day,<br/><br/>You have a message came from (AMP) mobile device  via ' . get_bloginfo('url') . '. Kindly check the details below. Thank you!<br/><br/>Full Name: {Name}<br/>Company Name: {Company}<br/>Email: {Email}<br/>Phone: {Phone}<br/>Message: {Message}<br/>',
+            'confirm-msg' => 'Thanks for contacting us! We will get in touch with you shortly.'
+        );
 
-         
+        if( false == get_option( 'ext_amp_general_options' ) ) {  
+            add_option( 'ext_amp_general_options' );
+        }    
+        if( false == get_option( 'ext_amp_forms_options' ) ) {  
+            add_option( 'ext_amp_forms_options', $default_form_values );
+        }
+        //add_option('ext_amp_tmpl_settings', $default_values);
+        //add_option('ext_amp_tmpl_forms');
+    
     }
 
     /**
@@ -177,13 +188,16 @@ class EXT_AMP_Settings_Page
     public function add_plugin_page()
     {
         // This page will be under "Settings"
-        add_options_page(
+        $itg_admin_menu = add_options_page(
             'EXT AMP Template', 
             'AMP Settings', 
             'manage_options', 
             'ext-amp-setting', 
             array( $this, 'create_admin_page' )
+            //array($this, 'wp_enqueue_admin_assets')
         );
+
+        //add_action('admin_print_style-' . $itg_admin_menu, array($this, 'wp_enqueue_admin_assets') );
     }
 
     /**
@@ -194,8 +208,18 @@ class EXT_AMP_Settings_Page
         //$this->options['general'] = get_option( 'ext_amp_general_options' );
        
         $this->options['forms'] = get_option( 'ext_amp_tmpl_forms' );
+        //var_dump(get_option('ext_amp_forms_options'));
         require 'views/settings-page.php';
        
+    }
+
+    public function wp_enqueue_admin_assets($hook){
+        // Load only on ?page=mypluginname
+        //wp_die($hook);
+        if($hook != 'settings_page_ext-amp-setting') {
+                return;
+        }
+        wp_enqueue_style('ext_amp_css', plugins_url() . '/amp-project-template/asset/css/ext-amp-settings.css', array(), false);
     }
 
     /**
@@ -231,8 +255,8 @@ class EXT_AMP_Settings_Page
         );
     }
 
-     public function settings_description(){
-         echo 'Setings for your email.';
+     public function settings_description_pre($str){
+         echo $str;
      }
 
      
