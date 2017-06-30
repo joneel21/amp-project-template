@@ -1,6 +1,6 @@
 <?php
 
-class EXT_AMP_General_Options {
+class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
     private $options;
 
     public function __construct() {        
@@ -89,5 +89,3 @@ class EXT_AMP_General_Options {
     }
 
 }
-
-new EXT_AMP_General_Options();

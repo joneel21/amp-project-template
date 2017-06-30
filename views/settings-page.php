@@ -9,9 +9,8 @@
 <div class="tabwrapper">
 
     <div id="icon-themes" class="icon32"></div>
-    <h1>My Settings</h1>
-    <?php settings_errors(); ?>
-    <?php echo 'Path: ' .  ABSPATH; ?>
+    <h1>AMP Extension</h1>
+    <?php settings_errors(); ?>   
     <h2 class="nav-tab-wrapper">
         <a href="?page=ext-amp-setting&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : '' ?>">General</a>
         <a href="?page=ext-amp-setting&tab=styling" class="nav-tab <?php echo $active_tab == 'styling' ? 'nav-tab-active' : '' ?>">Styling</a>

@@ -3,9 +3,11 @@
 class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
     private $options;
     private $description;
+    private $helper;
    
     public function __construct() {       
       //$this->description = parent::settings_description("Tets");
+      $this->helper = new EXT_AMP_Helper();
     }    
    
     public function ext_amp_forms_settings()
@@ -139,7 +141,7 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
                 );
         $content = isset( $this->options['message'] ) ? esc_attr( $this->options['message']) : '';
             
-        $content = parent::raw_str_to_html($content);
+        $content = $this->helper->raw_str_to_html($content);
 
         wp_editor( $content, 'ext-amp-form-message', $settings );
         
@@ -155,6 +157,12 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
             isset( $this->options['confirm-msg'] ) ? esc_attr( $this->options['confirm-msg']) : ''
         );
     }
+
+     /**
+     * Sanitize each setting field as needed
+     *
+     * @param array $input Contains all settings fields as array keys
+     */
     public function sanitize( $input )
     {
         $new_input = array();
@@ -185,6 +193,6 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
         return $new_input;
     }
      public function settings_description(){
-        echo "Mail settings for the recipient after form submission.";
+        echo "Mail settings for the recipient after form submission.";      
     }
 }

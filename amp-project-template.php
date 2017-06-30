@@ -10,43 +10,122 @@
 
 define( 'EXT__AMP__FILE__', __FILE__ );
 define( 'EXT__AMP__DIR__', dirname( __FILE__ ) );
-
-class EXT_AMP_Template{
+class EXT_AMP_Settings_Page
+{
+    /**
+     * Holds the values to be used in the fields callbacks
+     */
     const VER = '0.1-dev';
     const DB_VER = 1;
 
-    public function bootstrap(){
+    private $options;
+    private $options_forms;
+    private $class;
+    //private $general_options = EXT_AMP_General_Options;
+    /**
+     * Start up
+     */
+    public function __construct()
+    {
+        
         register_activation_hook(__FILE__, array( $this, 'activate') );
-        add_action('admin_init', array( $this, 'register_ext_amp_settings') );
-    }
+        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
+        //$this->init_options(); 
+
+        add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
+        add_action( 'admin_init', array( $this, 'ext_amp_general_options' ) );
+        add_action( 'admin_init', array( $this, 'ext_amp_forms_options' ) ); 
+
+        add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );      
+        
+    }    
     
-    public function activate(){
-        $this->init_options();
+    public function activate(){      
+        $this->init_options();   
+        update_option('ext_amp_tmpl_ver', SELF::VER);
+        add_option('ext_amp_tmpl_db_ver', SELF::DB_VER);    
+    }
+    public function deactivate(){
+        /*delete_option('ext_amp_tmpl_settings');
+        delete_option('ext_amp_reg_general_options');
+        delete_option('ext_amp_forms_options');*/
     }
 
+    /**
+     * Register and add settings
+     */
+    public function ext_amp_general_options(){
+        $this->class = new EXT_AMP_General_Options();
+        $this->class->ext_amp_general_settings();
+    }
+    public function ext_amp_forms_options(){
+        $this->class = new EXT_AMP_Forms_Options();
+        $this->class->ext_amp_forms_settings();
+    }    
+    
     public function init_options(){
-        update_option('ext_amp_tmpl_ver', SELF::VER);
-        add_option('ext_amp_tmpl_db_ver', SELF::DB_VER);
-
         //set default value
         $default_values = array(
             'site-icon' => '',
-            'site-logo' => '',
+            'site-logo' => 'location',
             'featured-img-default' => '',
             'amp-custom-css' => '',
             'amp-custom-element' => '',
             'amp-font' => '',
             'amp-analytics-code' => ''
         );
-
-        add_option('ext_amp_tmpl_settings', $default_values);
         
+        $default_form_values = array(
+            'send-to' => get_bloginfo('admin_email'),
+            'from-name' => get_bloginfo('name'),
+            'from-email' => get_bloginfo('admin_email'),
+            'reply-to' => '',
+            'bcc' => '',
+            'subject' => 'Contact Form Inquiry via AMP - {Name}',
+            'message' => 'G\'Day,<br/><br/>You have a message came from (AMP) mobile device  via ' . get_bloginfo('url') . '. Kindly check the details below. Thank you!<br/><br/>Full Name: {Name}<br/>Company Name: {Company}<br/>Email: {Email}<br/>Phone: {Phone}<br/>Message: {Message}<br/>',
+            'confirm-msg' => 'Thanks for contacting us! We will get in touch with you shortly.'
+        );
+
+        if( false == get_option( 'ext_amp_general_options' ) ) {  
+            add_option( 'ext_amp_general_options' );
+        }    
+        if( false == get_option( 'ext_amp_forms_options' ) ) {  
+            add_option( 'ext_amp_forms_options', $default_form_values );
+        }        
     }
 
-    public function register_ext_amp_settings(){
-        register_setting( 'ext_amp_settings_group', 'ext_amp_tmpl_settings' );   
+    /**
+     * Add options page
+     */
+    public function add_plugin_page()
+    {
+        // This page will be under "Settings"
+        add_options_page(
+            'EXT AMP Template', 
+            'AMP Extension', 
+            'manage_options', 
+            'ext-amp-setting', 
+            array( $this, 'create_admin_page' )            
+        );        
     }
 
+    /**
+     * Options page callback
+     */
+    public function create_admin_page()
+    {       
+        require 'views/settings-page.php';       
+    }
+
+    public function wp_enqueue_admin_assets($hook){
+        // Load only on ?page=mypluginname
+        //wp_die($hook);
+        if($hook != 'settings_page_ext-amp-setting') {
+                return;
+        }
+        wp_enqueue_style('ext_amp_css', plugins_url() . '/amp-project-template/asset/css/ext-amp-settings.css', array(), false);
+    }   
+   
 }
 
 
@@ -87,206 +166,6 @@ function ext_amp_load_template_actions(){
     /*require(EXT__AMP__DIR__ . '/template/submit.php');*/
 }
 ext_amp_load_template_actions();
-
-
-
-class EXT_AMP_Settings_Page
-{
-    /**
-     * Holds the values to be used in the fields callbacks
-     */
-    private $options;
-    private $options_forms;
-    private $class;
-    //private $general_options = EXT_AMP_General_Options;
-    /**
-     * Start up
-     */
-    public function __construct()
-    {
-        
-        register_activation_hook(__FILE__, array( $this, 'activate') );
-        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
-        //$this->init_options(); 
-
-        add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
-        add_action( 'admin_init', array( $this, 'ext_amp_general_options' ) );
-        add_action( 'admin_init', array( $this, 'ext_amp_forms_options' ) );
-        add_action( 'admin_init', array( $this, 'ext_amp_reg_forms' ) );  
-
-        add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );      
-        
-    }
-     public function bootstrap(){
-        //register_activation_hook(__FILE__, array( $this, 'activate') );
-        //register_deactivation_hook(__FILE__, array($this, 'deactivate'));
-        //add_action('admin_init', array( $this, 'register_ext_amp_settings') );
-       
-        add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
-        add_action( 'admin_init', array( $this, 'page_init' ) );
-        add_action( 'admin_init', array( $this, 'ext_amp_reg_forms' ) );
-
-    }
-    
-    public function activate(){
-      
-        $this->init_options();   
-
-    }
-    public function ext_amp_general_options(){
-        $this->class = new EXT_AMP_General_Options();
-        $this->class->ext_amp_general_settings();
-    }
-    public function ext_amp_forms_options(){
-        $this->class = new EXT_AMP_Forms_Options();
-        $this->class->ext_amp_forms_settings();
-    }
-    public function deactivate(){
-        /*delete_option('ext_amp_tmpl_settings');
-        delete_option('ext_amp_reg_general_options');
-        delete_option('ext_amp_forms_options');*/
-    }
-    
-    public function init_options(){
-
-        //set default value
-        $default_values = array(
-            'site-icon' => '',
-            'site-logo' => 'location',
-            'featured-img-default' => '',
-            'amp-custom-css' => '',
-            'amp-custom-element' => '',
-            'amp-font' => '',
-            'amp-analytics-code' => ''
-        );
-        
-        $default_form_values = array(
-            'send-to' => get_bloginfo('admin_email'),
-            'from-name' => get_bloginfo('name'),
-            'from-email' => get_bloginfo('admin_email'),
-            'reply-to' => '',
-            'bcc' => '',
-            'subject' => 'Contact Form Inquiry via AMP - {Name}',
-            'message' => 'G\'Day,<br/><br/>You have a message came from (AMP) mobile device  via ' . get_bloginfo('url') . '. Kindly check the details below. Thank you!<br/><br/>Full Name: {Name}<br/>Company Name: {Company}<br/>Email: {Email}<br/>Phone: {Phone}<br/>Message: {Message}<br/>',
-            'confirm-msg' => 'Thanks for contacting us! We will get in touch with you shortly.'
-        );
-
-        if( false == get_option( 'ext_amp_general_options' ) ) {  
-            add_option( 'ext_amp_general_options' );
-        }    
-        if( false == get_option( 'ext_amp_forms_options' ) ) {  
-            add_option( 'ext_amp_forms_options', $default_form_values );
-        }
-        //add_option('ext_amp_tmpl_settings', $default_values);
-        //add_option('ext_amp_tmpl_forms');
-    
-    }
-
-    /**
-     * Add options page
-     */
-    public function add_plugin_page()
-    {
-        // This page will be under "Settings"
-        $itg_admin_menu = add_options_page(
-            'EXT AMP Template', 
-            'AMP Settings', 
-            'manage_options', 
-            'ext-amp-setting', 
-            array( $this, 'create_admin_page' )
-            //array($this, 'wp_enqueue_admin_assets')
-        );
-
-        //add_action('admin_print_style-' . $itg_admin_menu, array($this, 'wp_enqueue_admin_assets') );
-    }
-
-    /**
-     * Options page callback
-     */
-    public function create_admin_page()
-    {
-        //$this->options['general'] = get_option( 'ext_amp_general_options' );
-       
-        $this->options['forms'] = get_option( 'ext_amp_tmpl_forms' );
-        //var_dump(get_option('ext_amp_forms_options'));
-        require 'views/settings-page.php';
-       
-    }
-
-    public function wp_enqueue_admin_assets($hook){
-        // Load only on ?page=mypluginname
-        //wp_die($hook);
-        if($hook != 'settings_page_ext-amp-setting') {
-                return;
-        }
-        wp_enqueue_style('ext_amp_css', plugins_url() . '/amp-project-template/asset/css/ext-amp-settings.css', array(), false);
-    }
-
-    /**
-     * Register and add settings
-     */
-
-     public function ext_amp_reg_forms(){
-         register_setting(
-             'ext_amp_reg_forms_group',
-             'ext_amp_tmpl_forms'
-         );
-
-         add_settings_section(
-             'ext_amp_forms_id',
-             'Forms',
-             array($this, 'ext_amp_reg_forms_desc'),
-             'ext-amp-setting'
-             
-         );
-         add_settings_field(
-             'frm_to',
-             'Send To',
-             array($this, 'frm_send_to'),
-             'ext-amp-setting',
-             'ext_amp_forms_id'
-         );
-     }
-    public function frm_send_to()
-    {
-        printf(
-            '<input type="text" id="frm_to" name="ext_amp_tmpl_forms[frm_to]" value="%s" />',
-            isset( $this->options['forms']['frm_to'] ) ? esc_attr( $this->options['forms']['frm_to']) : ''
-        );
-    }
-
-     public function settings_description_pre($str){
-         echo $str;
-     }
-
-     
-    /**
-     * Sanitize each setting field as needed
-     *
-     * @param array $input Contains all settings fields as array keys
-     */
-    public function sanitize( $input )
-    {
-        $new_input = array();
-        if( isset( $input['id_number'] ) )
-            $new_input['id_number'] = absint( $input['id_number'] );
-
-        if( isset( $input['title'] ) )
-            $new_input['title'] = sanitize_text_field( $input['title'] );
-
-        return $new_input;
-    }
-
-    public function raw_str_to_html($str){
-        $str = (string)$str;
-        $str = preg_replace('/&lt;/', '<', $str);
-        $str = preg_replace('/&gt;/', '>', $str);
-        $str = preg_replace('/&quot;/', '"', $str);
-        $str = preg_replace('/&#039;/', "'", $str);
-        return $str;
-    }
-    
-}
 
 require_once (EXT__AMP__DIR__ . '/views/options-general.php');
 require_once (EXT__AMP__DIR__ . '/views/options-forms.php');
