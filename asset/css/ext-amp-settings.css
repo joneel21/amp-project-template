@@ -4,3 +4,7 @@
 .ext_input_full_width{
     width: 100%;
 }
+
+.upload_logo{
+    cursor: pointer;
+}

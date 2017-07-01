@@ -56,7 +56,7 @@ html {
 body {
 	background: <?php echo sanitize_hex_color( $theme_color ); ?>;
 	color: <?php echo sanitize_hex_color( $text_color ); ?>;
-	font-family: 'Merriweather', 'Times New Roman', Times, Serif;
+	font-family: Lato;
 	font-weight: 300;
 	line-height: 1.75em;
 }
@@ -105,7 +105,7 @@ blockquote p:last-child {
 .amp-wp-comments-link,
 .amp-wp-footer p,
 .back-to-top {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	font-family: Lato;
 }
 
 /* Header */

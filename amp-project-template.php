@@ -122,8 +122,17 @@ class EXT_AMP_Settings_Page
         //wp_die($hook);
         if($hook != 'settings_page_ext-amp-setting') {
                 return;
-        }
+        }        
+        wp_enqueue_script('jquery'); 
+        wp_enqueue_script('jquery-ui-core');
+        /*
+        wp_enqueue_script('thickbox');
+        wp_enqueue_style('thickbox'); */
+        wp_enqueue_media();
+
         wp_enqueue_style('ext_amp_css', plugins_url() . '/amp-project-template/asset/css/ext-amp-settings.css', array(), false);
+        wp_enqueue_script('ext_amp_js', plugins_url() . '/amp-project-template/asset/js/ext-amp-media-upload.js', array('jquery', 'jquery-ui-core'), false); 
+           
     }   
    
 }
@@ -149,15 +158,41 @@ function custom_template_data($data){
         'amp-bind' => 'https://cdn.ampproject.org/v0/amp-bind-0.1.js',
         'amp-social-share' => 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js'
         );
-    $data['font_urls'] = array(
-        'lato' => 'https://fonts.googleapis.com/css?family=Lato:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Josefin+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic',
+        //'lato' => 'https://fonts.googleapis.com/css?family=Lato:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Josefin+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic',
+    $data['font_urls'] = array(        
         'josefinsans' => 'https://fonts.googleapis.com/css?family=Josefin+Sans:700,600,500,400',
         'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
     );
 
+    $fontawesome = array(
+        'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+    );
+
+     
+    $get_body_font = get_option('ext_amp_general_options')['body-font'];
+    $get_header_font = get_option('ext_amp_general_options')['header-font'];
+    $data['font_urls'] = array(
+        'lato' => 'https://fonts.googleapis.com/css?family=Lato:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Josefin+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic'
+        );
+    if(!empty($get_body_font) || !empty($get_header_font)){        
+        $google_font_url = 'https://fonts.googleapis.com/css?family='; 
+        $custom 
+    }
+    else{
+        $data['font_urls'] = $fontawesome;
+    }
+    
+
     return $data;
 }
 
+add_action( 'amp_post_template_css', 'ext_amp_my_additional_css_styles' );
+
+function ext_amp_my_additional_css_styles( $amp_template ) {
+	// only CSS here please...
+    $ext_amp_css = get_option('ext_amp_general_options');
+    echo $ext_amp_css['extra-css'];
+}
 
 function ext_amp_load_template_actions(){
     require_once(EXT__AMP__DIR__ . '/inc/ext-amp-template-actions.php');
