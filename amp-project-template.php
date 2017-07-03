@@ -157,26 +157,22 @@ function custom_template_data($data){
         'amp-mustache' => 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js',
         'amp-bind' => 'https://cdn.ampproject.org/v0/amp-bind-0.1.js',
         'amp-social-share' => 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js'
-        );
-        //'lato' => 'https://fonts.googleapis.com/css?family=Lato:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Josefin+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic',
-    $data['font_urls'] = array(        
-        'josefinsans' => 'https://fonts.googleapis.com/css?family=Josefin+Sans:700,600,500,400',
-        'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-    );
+        );        
 
     $fontawesome = array(
         'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
     );
-
      
     $get_body_font = get_option('ext_amp_general_options')['body-font'];
     $get_header_font = get_option('ext_amp_general_options')['header-font'];
-    $data['font_urls'] = array(
-        'lato' => 'https://fonts.googleapis.com/css?family=Lato:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Josefin+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic'
-        );
+   
     if(!empty($get_body_font) || !empty($get_header_font)){        
         $google_font_url = 'https://fonts.googleapis.com/css?family='; 
-        $custom 
+        $get_body_font = !empty($get_body_font) && $get_body_font != '-1'? $get_body_font . '|' : ''; 
+        $get_header_font = !empty($get_header_font) && $get_header_font != '-1'? $get_header_font . '|' : '';        
+        $web_font = array( 'web-font' => $google_font_url . $get_body_font . $get_header_font);
+
+        $data['font_urls'] = array_merge($web_font, $fontawesome);
     }
     else{
         $data['font_urls'] = $fontawesome;

@@ -18,62 +18,43 @@
 </style>
 </head>
 
-<body class="<?php echo esc_attr( $this->get( 'body_class' ) ); ?>">
+<body class="<?php echo esc_attr( $this->get( 'body_class' ) ); ?>" [class]="'st-effect-1 ' + stMenuEffect">
 
 <?php $this->load_parts( array( 'header-bar' ) ); ?>
 
-<article class="amp-wp-article">
-
-	<header class="amp-wp-article-header">
+<div class="amp-blog-hero" id="<?php echo get_the_ID();  ?>">
+	<div class="content-holder">
 		<h1 class="amp-wp-title"><?php echo wp_kses_data( $this->get( 'post_title' ) ); ?></h1>
-		<?php $this->load_parts( apply_filters( 'amp_post_article_header_meta', array( 'meta-author', 'meta-time' ) ) ); ?>
-        
-	</header>
-   
-    <?php if( has_nav_menu('primary-menu') ) { wp_nav_menu( array( 'theme_location' => 'primary-menu', 'container' => '') ); } ?>
-    
-    <?php mk_get_header_view('global', 'social', ['location' => 'header']); ?>
-
+        <?php $this->load_parts( apply_filters( 'amp_post_article_header_meta', array( 'meta-author', 'meta-time' ) ) ); ?>
+	</div>	
 	<?php $this->load_parts( array( 'featured-image' ) ); ?>
+</div>
+
+<article class="amp-wp-article">
 
 	<div class="amp-wp-article-content">
 		<?php echo $this->get( 'post_amp_content' ); // amphtml content; no kses ?>
-	</div>
 
+        
+	</div>
+    <div class="amp-share-icon">
+        <amp-social-share type="facebook" class="custom-style"
+            data-param-app_id="254325784911610"></amp-social-share>
+        <amp-social-share type="twitter" class="custom-style"></amp-social-share>
+    </div>
 	<footer class="amp-wp-article-footer">
 		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', array( 'meta-taxonomy', 'meta-comments-link' ) ) ); ?>
 	</footer>   
+    
 
-    <amp-iframe width="500"
-    height="200"
-    layout="responsive"
-    sandbox="allow-scripts allow-same-origin allow-popups"
-    frameborder="0"
-    src="https://www.google.com/maps/embed/v1/place?q=10000+N+31st+Ave+d411,+Phoenix,+AZ+85051,+USA&key=AIzaSyCNCZ0Twm_HFRaZ5i-FuPDYs3rLwm4_848">
-    </amp-iframe>
+    <!--https://www.google.com/maps/embed/v1/place?q=10000+N+31st+Ave+d411,+Phoenix,+AZ+85051,+USA&key=AIzaSyCNCZ0Twm_HFRaZ5i-FuPDYs3rLwm4_848 -->
 
-    <?php if ( is_active_sidebar( 'amp-first-widget' ) ) : ?>
-        <div id="col1" class="widget-area" role="complementary">            
-            <?php dynamic_sidebar( 'amp-first-widget' ); ?>
-        </div>
-    <?php endif; ?>
+    
 
-    <?php if ( is_active_sidebar( 'amp-second-widget' ) ) : ?>
-        <div id="col2" class="widget-area" role="complementary">            
-            <?php dynamic_sidebar( 'amp-second-widget' ); ?>
-        </div>
-    <?php endif; ?>
+    
 
-    <?php if ( is_active_sidebar( 'amp-third-widget' ) ) : ?>
-        <div id="col3" class="widget-area" role="complementary">            
-            <?php dynamic_sidebar( 'amp-third-widget' ); ?>
-        </div>
-    <?php endif; ?>
-    <?php if ( is_active_sidebar( 'sidebar-13' ) ) : ?>
-        <div id="col4" class="widget-area" role="complementary">            
-            <?php dynamic_sidebar( 'sidebar-13' ); ?>
-        </div>
-    <?php endif; ?>
+    
+    
     <?php if ( is_active_sidebar( 'sidebar-14' ) ) : ?>
         <div id="col5" class="widget-area" role="complementary">            
             <?php dynamic_sidebar( 'sidebar-14' ); ?>

@@ -1,18 +1,13 @@
 <?php
-$featured_image = $this->get( 'featured_image' );
+$post_id = get_the_ID();
+$featured_image = get_the_post_thumbnail( $post_id, 'full' );
+$featured_image = preg_replace('/img/', 'amp-img layout="responsive"', $featured_image) . '</amp-img>';
 
 if ( empty( $featured_image ) ) {
 	return;
 }
 
-$amp_html = $featured_image['amp_html'];
-$caption = $featured_image['caption'];
 ?>
 <figure class="amp-wp-article-featured-image wp-caption">
-	<?php echo $amp_html; // amphtml content; no kses ?>
-	<?php if ( $caption ) : ?>
-		<p class="wp-caption-text">
-			<?php echo wp_kses_data( $caption ); ?>
-		</p>
-	<?php endif; ?>
+	<?php echo $featured_image; ?>
 </figure>

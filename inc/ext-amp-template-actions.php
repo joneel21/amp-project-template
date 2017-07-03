@@ -24,3 +24,27 @@ function ext_amp_custom_header( $file, $type, $post ) {
 	}
 	return $file;
 }
+add_filter( 'amp_post_template_file', 'ext_amp_custom_featured_image', 10, 3 );
+
+function ext_amp_custom_featured_image( $file, $type, $post ) {
+	if ( 'featured-image' === $type ) {
+		$file = EXT__AMP__DIR__ . '/template/featured-image.php';
+	}
+	return $file;
+}
+add_filter( 'amp_post_template_file', 'ext_amp_custom_meta_author', 10, 3 );
+
+function ext_amp_custom_meta_author( $file, $type, $post ) {
+	if ( 'meta-author' === $type ) {
+		$file = EXT__AMP__DIR__ . '/template/meta-author.php';
+	}
+	return $file;
+}
+add_filter( 'amp_post_template_file', 'ext_amp_custom_footer', 10, 3 );
+
+function ext_amp_custom_footer( $file, $type, $post ) {
+	if ( 'footer' === $type ) {
+		$file = EXT__AMP__DIR__ . '/template/footer.php';
+	}
+	return $file;
+}

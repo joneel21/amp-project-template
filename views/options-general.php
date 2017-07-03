@@ -46,6 +46,48 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
             'general_settings_section'
         ); 
         add_settings_field(
+            'facebook', 
+            'Facebook', 
+            array( $this, 'facebook_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        ); 
+        add_settings_field(
+            'google-plus', 
+            'Google+', 
+            array( $this, 'google_plus_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        );
+        add_settings_field(
+            'twitter', 
+            'Twitter', 
+            array( $this, 'twitter_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        ); 
+        add_settings_field(
+            'linkedin', 
+            'LinkedIn', 
+            array( $this, 'linkedin_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        ); 
+        add_settings_field(
+            'youtube', 
+            'Youtube', 
+            array( $this, 'youtube_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        );
+        add_settings_field(
+            'instagram', 
+            'Instagram', 
+            array( $this, 'instagram_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        );
+        add_settings_field(
             'body_font', 
             'Body Font', 
             array( $this, 'body_font_callback' ), 
@@ -102,6 +144,54 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
             isset( $this->options['phone-number'] ) ? esc_attr( $this->options['phone-number']) : ''
         );
     } 
+    public function facebook_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');       
+        printf(
+            '<input type="text" class="ext_input" id="facebook" name="ext_amp_general_options[facebook]" value="%s" />',
+            isset( $this->options['facebook'] ) ? esc_attr( $this->options['facebook']) : ''
+        );
+    }     
+    public function google_plus_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');       
+        printf(
+            '<input type="text" class="ext_input" id="google_plus" name="ext_amp_general_options[google-plus]" value="%s" />',
+            isset( $this->options['google-plus'] ) ? esc_attr( $this->options['google-plus']) : ''
+        );
+    }
+    public function twitter_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');       
+        printf(
+            '<input type="text" class="ext_input" id="twitter" name="ext_amp_general_options[twitter]" value="%s" />',
+            isset( $this->options['twitter'] ) ? esc_attr( $this->options['twitter']) : ''
+        );
+    }
+    public function linkedin_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');       
+        printf(
+            '<input type="text" class="ext_input" id="linkedin" name="ext_amp_general_options[linkedin]" value="%s" />',
+            isset( $this->options['linkedin'] ) ? esc_attr( $this->options['linkedin']) : ''
+        );
+    }
+    public function youtube_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');       
+        printf(
+            '<input type="text" class="ext_input" id="youtube" name="ext_amp_general_options[youtube]" value="%s" />',
+            isset( $this->options['youtube'] ) ? esc_attr( $this->options['youtube']) : ''
+        );
+    }
+    public function instagram_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');       
+        printf(
+            '<input type="text" class="ext_input" id="instagram" name="ext_amp_general_options[instagram]" value="%s" />',
+            isset( $this->options['instagram'] ) ? esc_attr( $this->options['instagram']) : ''
+        );
+    }
     public function body_font_callback()
     {                    
        
@@ -142,6 +232,24 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
 
         if( isset( $input['phone-number'] ) )
             $new_input['phone-number'] = sanitize_text_field( $input['phone-number'] );
+        
+        if( isset( $input['facebook'] ) )
+            $new_input['facebook'] = esc_url( $input['facebook'] );
+        
+        if( isset( $input['google-plus'] ) )
+            $new_input['google-plus'] = esc_url( $input['google-plus'] );
+        
+        if( isset( $input['twitter'] ) )
+            $new_input['twitter'] = esc_url( $input['twitter'] );
+
+        if( isset( $input['linkedin'] ) )
+            $new_input['linkedin'] = esc_url( $input['linkedin'] );
+        
+        if( isset( $input['youtube'] ) )
+            $new_input['youtube'] = esc_url( $input['youtube'] );
+        
+        if( isset( $input['instagram'] ) )
+            $new_input['instagram'] = esc_url( $input['instagram'] );
 
         if( isset( $input['default-image'] ) )
             $new_input['default-image'] = esc_url( $input['default-image'] );
@@ -162,24 +270,10 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
      * Print the Section text
      */
     public function settings_description()
-    {		              
-        /*$result = $this->helper->get_google_web_font();
-        $result = json_decode($result, true);*/
-        echo get_option('ext_amp_general_options')['header-font'];
-        $array1 = array(        
-            'josefinsans' => 'https://fonts.googleapis.com/css?family=Josefin+Sans:700,600,500,400',
-            'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-        );
-        $array2 = array(
-        'lato' => 'https://fonts.googleapis.com/css?family=Lato:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Josefin+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic'
-        );
-        //$data['font_urls'];
-       /* $data['font_urls'] = array(        
-            'josefinsans' => 'https://fonts.googleapis.com/css?family=Josefin+Sans:700,600,500,400',
-            'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-        );*/
-        $data['font_urls'] = array_merge($array1, $array2);
-        var_dump($data);
+    {	             
+        
+        var_dump(get_option('ext_amp_general_options'));               
+      
         //print '<p>Enter your settings below:<p>';
         return;
     }
