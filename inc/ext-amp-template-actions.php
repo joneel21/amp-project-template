@@ -40,6 +40,15 @@ function ext_amp_custom_meta_author( $file, $type, $post ) {
 	}
 	return $file;
 }
+
+add_filter( 'amp_post_template_file', 'ext_amp_custom_meta_time', 10, 3 );
+function ext_amp_custom_meta_time( $file, $type, $post ) {
+	if ( 'meta-time' === $type ) {
+		$file = EXT__AMP__DIR__ . '/template/meta-time.php';
+	}
+	return $file;
+}
+
 add_filter( 'amp_post_template_file', 'ext_amp_custom_footer', 10, 3 );
 
 function ext_amp_custom_footer( $file, $type, $post ) {

@@ -11,8 +11,8 @@ function ext_amp_widgets_init() {
         'description' => __( 'This is intended for amp post page', 'ext_amp' ),
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
+        'before_title' => '<div class="widget-title">',
+        'after_title' => '</div>',
     ) );
 
     register_sidebar( array(
@@ -21,8 +21,8 @@ function ext_amp_widgets_init() {
         'description' => __( 'This is intended for amp post page', 'ext_amp' ),
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
+        'before_title' => '<div class="widget-title">',
+        'after_title' => '</div>',
     ) );
 
     register_sidebar( array(
@@ -31,8 +31,8 @@ function ext_amp_widgets_init() {
         'description' => __( 'This is intended for amp post page', 'ext_amp' ),
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
+        'before_title' => '<div class="widget-title">',
+        'after_title' => '</div>',
     ) );
 } 
 

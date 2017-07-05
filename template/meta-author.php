@@ -5,6 +5,6 @@
 		<?php if ( function_exists( 'get_avatar_url' ) ) : ?>
 			<amp-img src="<?php echo esc_url( $author_avatar_url ); ?>" width="75" height="75" layout="fixed"></amp-img>
 		<?php endif; ?>
-		<span class="amp-wp-author author vcard"><?php echo esc_html( $post_author->display_name ); ?></span>
+		<span class="amp-wp-author author vcard"><?php echo 'By ' . esc_html( $post_author->display_name ); ?></span>
 	</div>
 <?php endif; ?>
