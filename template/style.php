@@ -95,7 +95,7 @@ a:focus {
 
 /*Custom Menu*/
 .menu-bar #st-trigger-effects button {
-    border: 3px solid #0397d2!important;
+    border: 3px solid #0397d2;
     display: inline-block;
     font-family: "Lato",sans-serif;
     font-size: 26px;
@@ -115,7 +115,7 @@ a:focus {
     transition: all .4s ease-in-out;
 }
 .menu-bar #st-trigger-effects button:hover {
-    background-color: #0397d2!important;
+    background-color: #0397d2;
     color: #fff;
     -webkit-animation: none;
     -moz-animation: none;
@@ -141,6 +141,17 @@ a:focus {
     -webkit-box-shadow: 0 2px 60px rgba(0,0,0,.9);
     -moz-box-shadow: 0 2px 60px rgba(0,0,0,.9);
     box-shadow: 0 2px 60px rgba(0,0,0,.9);
+}
+.st-effect-1.vertical-st-menu {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, 0, 0);
+    -moz-transform: translate3d(100%, 0, 0);
+    -ms-transform: translate3d(100%, 0, 0);
+    -o-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 .st-effect-1.st-menu-open .st-effect-1.vertical-st-menu {   
     opacity: 1;
@@ -196,9 +207,9 @@ a:focus {
     position: absolute; 
     width: 40px;
     color: #fff;
-	font-size: 38px;
-    top: 8px;
-    right: 20px;
+	font-size: 38px;    
+	top: 90px;
+    right: 0;
 }
 .st-effect-1.st-menu-open .vertical-st-menu .sub-menu {
     background: #006897;
@@ -335,6 +346,10 @@ h5{
 	position: absolute;
 	right: 18px;
 	top: 10px;
+}
+
+.main-content{
+	outline: none;
 }
 
 /* Article */
@@ -601,6 +616,10 @@ amp-carousel > amp-img > img {
 }
 
 @media (max-width: 1366px){
+	#close-vertical-menu {
+		top: 8px;
+		right: 20px;
+	}
 	.vertical-st-menu {
 		padding-top: 0;
 		margin-top: 87px;		
@@ -677,6 +696,19 @@ amp-carousel > amp-img > img {
 .ampstart-input{
 	text-align: right;
 }
+form.amp-form-submit-success [submit-success],
+form.amp-form-submit-error [submit-error]{
+  margin-top: 16px;
+}
+form.amp-form-submit-success [submit-success] {
+  color: green;
+}
+form.amp-form-submit-error [submit-error] {
+  color: red;
+}
+form.amp-form-submit-success.hide-inputs > input {
+  display: none;
+}
 .amp-form-submit-success .user-valid{
     display: none;
 }
@@ -732,11 +764,11 @@ input.ampstart-btn:hover{
     color: #fff;
 }
 input{
-	-webkit-transition: all .3s linear !important;
-    -moz-transition: all .3s linear !important;
-    -ms-transition: all .3s linear !important;
-    -o-transition: all .3s linear !important;
-    transition: all .3s linear !important;
+	-webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -ms-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
 }
 
 .input.valueMissing{

@@ -7,7 +7,7 @@
 			Call us: <span><a href="tel:1-<?php echo $general_option['phone-number'] ?>"><?php echo $general_option['phone-number'] ?></a></span>
 	</div>	
 	<div id="logo">
-		<a href="<?php echo esc_url( $this->get( 'home_url' ) ); ?>" title="<?php echo esc_html($this->get( 'blog_name' ) ); ?>"> <img class="" title="<?php echo esc_html( get_bloginfo('description') ); ?>" alt="<?php echo esc_html( get_bloginfo('description') ); ?>" src="<?php echo esc_url($general_option['site-logo']) ?>"> </a>
+		<a href="<?php echo esc_url( $this->get( 'home_url' ) ); ?>" title="<?php echo esc_html($this->get( 'blog_name' ) ); ?>"> <amp-img class="" width="186" height="53" alt="<?php echo esc_html( get_bloginfo('description') ); ?>" src="<?php echo esc_url($general_option['site-logo']) ?>"></amp-img> </a>
 	</div>
 	<div class="nav">		
 		<div class="socials">
@@ -17,7 +17,7 @@
 		</div>
 		<div class="menu-bar">
 			<div id="st-trigger-effects"> 
-				<button class="visible-tablet-icon" on="tap:AMP.setState({stMenuEffect: 'st-menu-open'})"> MENU </button>
+				<button class="visible-tablet-icon" on="tap:AMP.setState({stMenuEffect: 'open'})"> MENU </button>
 			</div>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 <nav class="vertical-st-menu st-effect-1" id="menu-1">
 	<ul>
 		<?php if( has_nav_menu('primary-menu') ) { wp_nav_menu( array( 'theme_location' => 'primary-menu', 'container' => '') ); } ?>
-		<li id="close-vertical-menu" class="close-st-menu"><i class="fa fa-times-circle-o" aria-hidden="true"></i></li>
+		<li id="close-vertical-menu" class="close-st-menu" on="tap:AMP.setState({stMenuEffect: 'close'})"><i class="fa fa-times-circle-o" aria-hidden="true"></i></li>
 	</ul> 
 </nav>
 

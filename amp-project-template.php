@@ -37,9 +37,15 @@ class EXT_AMP_Settings_Page
         add_action( 'admin_init', array( $this, 'ext_amp_forms_options' ) ); 
 
         add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );      
+
+        //add_action( 'amp_post_template_head', array($this, 'ext_amp_post_head_meta') );
+
+
         
     }    
-    
+    function ext_amp_post_head_meta(){
+        echo '<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>';
+    }
     public function activate(){      
         $this->init_options();   
         update_option('ext_amp_tmpl_ver', SELF::VER);
@@ -147,16 +153,16 @@ class EXT_AMP_Settings_Page
 add_action( 'admin_notices', 'sample_admin_notice__error' );*/
 
 
+
 add_filter( 'amp_post_template_data', 'custom_template_data', 10, 2 );
 
-function custom_template_data($data){
-
-    $data['amp_component_scripts'] = array(
-        'amp-form' => 'https://cdn.ampproject.org/v0/amp-form-0.1.js',
-        'amp-iframe' => 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js',
-        'amp-mustache' => 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js',
+function custom_template_data($data){  
+    
+    $data['amp_component_scripts'] = array(        
+        'amp-form' => 'https://cdn.ampproject.org/v0/amp-form-0.1.js',        
+        'amp-iframe' => 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js',        
         'amp-bind' => 'https://cdn.ampproject.org/v0/amp-bind-0.1.js',
-        'amp-social-share' => 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js'
+        'amp-social-share' => 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js'        
         );        
 
     $fontawesome = array(

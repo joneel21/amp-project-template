@@ -84,7 +84,7 @@ class ext_amp_iframe_widget extends WP_Widget {
         $html .= 'height="' . $height . '"';
         $html .= 'layout="' . $layout . '"';
         $html .= 'sandbox="' . $sandbox . '"';
-        $html .= 'frameborder="' . $frameborder . '"';
+        $html .= 'frameborder="' . absint($frameborder) . '"';
         $html .= 'src="' . $src . '">';
         $html .= '</amp-iframe>';
         echo $html;
@@ -102,8 +102,8 @@ class ext_amp_iframe_widget extends WP_Widget {
         $height = ! empty( $instance['height'] ) ? $instance['height'] : esc_html__( '200', 'ext_amp_widget_domain' );
         $layout = ! empty( $instance['layout'] ) ? $instance['layout'] : esc_html__( 'responsive', 'ext_amp_widget_domain' );
         $sandbox = ! empty( $instance['sandbox'] ) ? $instance['sandbox'] : esc_html__( 'allow-scripts allow-same-origin allow-popups', 'ext_amp_widget_domain' );
-        $frameborder = ! empty( $instance['frameborder'] ) ? $instance['frameborder'] : esc_html__( '0', 'ext_amp_widget_domain' );
-        $src = ! empty( $instance['src'] ) ? $instance['src'] : esc_html__( 'https://www.google.com/maps/embed/v1/place?q=10000+N+31st+Ave+d411,+Phoenix,+AZ+85051,+USA&key=AIzaSyCNCZ0Twm_HFRaZ5i-FuPDYs3rLwm4_848', 'ext_amp_widget_domain' );
+        $frameborder = ! empty( $instance['frameborder'] ) ? $instance['frameborder'] : 0;
+        $src = ! empty( $instance['src'] ) ? $instance['src'] : esc_html__( 'https://www.google.com/maps/embed/v1/place?q=10000+N+31st+Ave+d411,+Phoenix,+AZ+85051,+USA&key=AIzaSyCfTcGL3F5PJ2Qmfkv82EpCo_ons8YZjdY', 'ext_amp_widget_domain' );
         ?>
         <p>
         <label for="<?php echo $this->get_field_id( 'width' ); ?>"><?php _e( 'Width:' ); ?></label> 
@@ -193,7 +193,8 @@ class ext_amp_form_widget extends WP_Widget {
         $html .= '<input type="text" class="input" name="phone" placeholder="Phone" required>';
         $html .= '<input type="email" class="input" name="email" placeholder="Email" required>';
         $html .= '<textarea class="textarea" name="message" placeholder="Message"></textarea>';
-        $html .= '<input type="submit" value="Send Message" class="ampstart-btn caps">';
+        $html .= '</div>';
+        $html .= '<div><input type="submit" value="Send Message" class="ampstart-btn caps"></div>';
         $html .= '<div submit-success>';
         $html .= '<template type="amp-mustache">';
         $html .= '{{successmsg}}';        
@@ -202,7 +203,7 @@ class ext_amp_form_widget extends WP_Widget {
         $html .= '<template type="amp-mustache">';
         $html .= '{{errmsg}}';        
         $html .= ' </template></div>'; 
-        $html .= '</div></form>';       
+        $html .= '</form>';       
         echo $html; 
         echo $args['after_widget'];
     }

@@ -57,3 +57,18 @@ function ext_amp_custom_footer( $file, $type, $post ) {
 	}
 	return $file;
 }
+
+add_filter( 'amp_post_template_metadata', 'ext_amp_modify_json_metadata', 10, 2 );
+
+function ext_amp_modify_json_metadata( $metadata, $post ) {
+	//$metadata['@type'] = 'NewsArticle';
+
+	$metadata['publisher']['logo'] = array(
+		'@type' => 'ImageObject',
+		'url' => plugins_url() . '/amp-project-template/asset/img/publisher-bluefox-logo-amp.png',
+		'height' => 60,
+		'width' => 600,
+	);
+
+	return $metadata;
+}
