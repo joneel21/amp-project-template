@@ -6,8 +6,8 @@
 	<div class="call-us">
 			Call us: <span><a href="tel:1-<?php echo $general_option['phone-number'] ?>"><?php echo $general_option['phone-number'] ?></a></span>
 	</div>	
-	<div id="logo">
-		<a href="<?php echo esc_url( $this->get( 'home_url' ) ); ?>" title="<?php echo esc_html($this->get( 'blog_name' ) ); ?>"> <amp-img class="" width="186" height="53" alt="<?php echo esc_html( get_bloginfo('description') ); ?>" src="<?php echo esc_url($general_option['site-logo']) ?>"></amp-img> </a>
+	<div id="logo">		
+		<a href="<?php echo esc_url( $this->get( 'home_url' ) ); ?>" title="<?php echo esc_html($this->get( 'blog_name' ) ); ?>"><amp-img width="186" height="53" src="<?php echo esc_url($general_option['site-logo']) ?>" alt="<?php echo esc_html( get_bloginfo('description') ); ?>" srcset="<?php echo esc_url($general_option['site-logo']) ?> 768w" sizes="(min-width: 768px) 186px, 130px"></amp-img></a>
 	</div>
 	<div class="nav">		
 		<div class="socials">
