@@ -58,11 +58,12 @@
 
         </div>
         <div class="about-author-wrapper">
+            <?php $post_author = $this->get( 'post_author' ); ?>           
             <div class="about-author-meta" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person">
                 <div class="about-author-title">About</div>
-                <a class="about-author-name" href="http://dev.meetbluefox.com/author/developer2/" itemprop="url"><span itemprop="name">Admin</span></a>
-                <div class="about-author-desc"></div>
-                <ul class="about-author-social"><li><a class="email-icon" title="Get in touch with me via email" target="_blank" href="mailto:wolfenstein22.2009@gmail.com"><i class="fa fa-envelope-o"><span class="hide"></span></i></a></li></ul>
+                <a class="about-author-name" href="/author/<?php echo $post_author->user_nicename; ?>" itemprop="url"><span itemprop="name"><?php echo $post_author->display_name; ?></span></a>
+                <div class="about-author-desc"><?php echo $post_author->description; ?></div>
+                <ul class="about-author-social"><li><a class="email-icon" title="Get in touch with me via email" target="_blank" href="mailto:<?php echo $post_author->user_email; ?>"><i class="fa fa-envelope-o"><span class="hide"></span></i></a></li></ul>
             </div>
         </div>
         <footer class="amp-wp-article-footer">

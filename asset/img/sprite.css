@@ -1,0 +1,23 @@
+.sprite {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-find-us-icon {
+    width: 17px;
+    height: 25px;
+    background-position: -5px -5px;
+}
+
+.sprite-fotm-icon {
+    width: 23px;
+    height: 18px;
+    background-position: -32px -5px;
+}
+
+.sprite-latest-post-icon {
+    width: 20px;
+    height: 23px;
+    background-position: -32px -33px;
+}

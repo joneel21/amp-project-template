@@ -26,7 +26,7 @@
 <nav class="vertical-st-menu st-effect-1" id="menu-1">
 	<ul>
 		<?php if( has_nav_menu('primary-menu') ) { wp_nav_menu( array( 'theme_location' => 'primary-menu', 'container' => '') ); } ?>
-		<li id="close-vertical-menu" class="close-st-menu" on="tap:AMP.setState({stMenuEffect: 'close'})"><i class="fa fa-times-circle-o" aria-hidden="true"></i></li>
+		<li id="close-vertical-menu" role="" tabindex="-1" class="close-st-menu" on="tap:AMP.setState({stMenuEffect: 'close'})"><i class="fa fa-times-circle-o" aria-hidden="true"></i></li>
 	</ul> 
 </nav>
 

@@ -10,6 +10,8 @@
 
 define( 'EXT__AMP__FILE__', __FILE__ );
 define( 'EXT__AMP__DIR__', dirname( __FILE__ ) );
+define( 'EXT__AMP__URL__', plugins_url() . '/amp-project-template');
+
 class EXT_AMP_Settings_Page
 {
     /**
@@ -34,27 +36,20 @@ class EXT_AMP_Settings_Page
 
         add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
         add_action( 'admin_init', array( $this, 'ext_amp_general_options' ) );
+        add_action( 'admin_init', array( $this, 'ext_amp_styling_options' ) );
         add_action( 'admin_init', array( $this, 'ext_amp_forms_options' ) ); 
 
-        add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );      
+        add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );     
 
-        //add_action( 'amp_post_template_head', array($this, 'ext_amp_post_head_meta') );
-
-
-        
     }    
-    function ext_amp_post_head_meta(){
-        echo '<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>';
-    }
+    
     public function activate(){      
         $this->init_options();   
-        update_option('ext_amp_tmpl_ver', SELF::VER);
-        add_option('ext_amp_tmpl_db_ver', SELF::DB_VER);    
+        //update_option('ext_amp_tmpl_ver', SELF::VER);
+        //add_option('ext_amp_tmpl_db_ver', SELF::DB_VER);    
     }
     public function deactivate(){
-        /*delete_option('ext_amp_tmpl_settings');
-        delete_option('ext_amp_reg_general_options');
-        delete_option('ext_amp_forms_options');*/
+       
     }
 
     /**
@@ -64,10 +59,14 @@ class EXT_AMP_Settings_Page
         $this->class = new EXT_AMP_General_Options();
         $this->class->ext_amp_general_settings();
     }
+    public function ext_amp_styling_options(){
+        $this->class = new EXT_AMP_Styling_Options();
+        $this->class->ext_amp_styling_settings();
+    }   
     public function ext_amp_forms_options(){
         $this->class = new EXT_AMP_Forms_Options();
         $this->class->ext_amp_forms_settings();
-    }    
+    }  
     
     public function init_options(){
         //set default value
@@ -95,6 +94,9 @@ class EXT_AMP_Settings_Page
         if( false == get_option( 'ext_amp_general_options' ) ) {  
             add_option( 'ext_amp_general_options' );
         }    
+        if( false == get_option( 'ext_amp_styling_options' ) ) {  
+            add_option( 'ext_amp_styling_options' );
+        }
         if( false == get_option( 'ext_amp_forms_options' ) ) {  
             add_option( 'ext_amp_forms_options', $default_form_values );
         }        
@@ -131,13 +133,13 @@ class EXT_AMP_Settings_Page
         }        
         wp_enqueue_script('jquery'); 
         wp_enqueue_script('jquery-ui-core');
-        /*
-        wp_enqueue_script('thickbox');
-        wp_enqueue_style('thickbox'); */
         wp_enqueue_media();
+        // Add the color picker css file       
+        wp_enqueue_style( 'wp-color-picker' );
 
-        wp_enqueue_style('ext_amp_css', plugins_url() . '/amp-project-template/asset/css/ext-amp-settings.css', array(), false);
-        wp_enqueue_script('ext_amp_js', plugins_url() . '/amp-project-template/asset/js/ext-amp-media-upload.js', array('jquery', 'jquery-ui-core'), false); 
+        wp_enqueue_style('ext_amp_css', EXT__AMP__URL__ . '/asset/css/ext-amp-settings.css', array(), false);
+        wp_enqueue_script('ext_amp_js', EXT__AMP__URL__ . '/asset/js/ext-amp-media-upload.js', array('jquery', 'jquery-ui-core'), false); 
+        wp_enqueue_script( 'custom-script-handle', EXT__AMP__URL__ . '/asset/js/ext-amp-color-picker.js', array( 'wp-color-picker' ), false, false ); 
            
     }   
    
@@ -152,60 +154,16 @@ class EXT_AMP_Settings_Page
 }
 add_action( 'admin_notices', 'sample_admin_notice__error' );*/
 
-
-
-add_filter( 'amp_post_template_data', 'custom_template_data', 10, 2 );
-
-function custom_template_data($data){  
-    
-    $data['amp_component_scripts'] = array(        
-        'amp-form' => 'https://cdn.ampproject.org/v0/amp-form-0.1.js',        
-        'amp-iframe' => 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js',        
-        'amp-bind' => 'https://cdn.ampproject.org/v0/amp-bind-0.1.js',
-        'amp-social-share' => 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js'        
-        );        
-
-    $fontawesome = array(
-        'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-    );
-     
-    $get_body_font = get_option('ext_amp_general_options')['body-font'];
-    $get_header_font = get_option('ext_amp_general_options')['header-font'];
-   
-    if(!empty($get_body_font) || !empty($get_header_font)){        
-        $google_font_url = 'https://fonts.googleapis.com/css?family='; 
-        $get_body_font = !empty($get_body_font) && $get_body_font != '-1'? $get_body_font . '|' : ''; 
-        $get_header_font = !empty($get_header_font) && $get_header_font != '-1'? $get_header_font . '|' : '';        
-        $web_font = array( 'web-font' => $google_font_url . $get_body_font . $get_header_font);
-
-        $data['font_urls'] = array_merge($web_font, $fontawesome);
-    }
-    else{
-        $data['font_urls'] = $fontawesome;
-    }
-    
-
-    return $data;
-}
-
-add_action( 'amp_post_template_css', 'ext_amp_my_additional_css_styles' );
-
-function ext_amp_my_additional_css_styles( $amp_template ) {
-	// only CSS here please...
-    $ext_amp_css = get_option('ext_amp_general_options');
-    echo $ext_amp_css['extra-css'];
-}
-
 function ext_amp_load_template_actions(){
+    require_once (EXT__AMP__DIR__ . '/views/options-general.php');
+    require_once (EXT__AMP__DIR__ . '/views/options-styling.php');
+    require_once (EXT__AMP__DIR__ . '/views/options-forms.php');
     require_once(EXT__AMP__DIR__ . '/inc/ext-amp-template-actions.php');
     require_once(EXT__AMP__DIR__ . '/inc/class-footer-widgets.php');
-    require_once(EXT__AMP__DIR__ . '/inc/class-helper.php');
+    require_once(EXT__AMP__DIR__ . '/inc/class-helper.php');    
     /*require(EXT__AMP__DIR__ . '/template/submit.php');*/
 }
 ext_amp_load_template_actions();
-
-require_once (EXT__AMP__DIR__ . '/views/options-general.php');
-require_once (EXT__AMP__DIR__ . '/views/options-forms.php');
 
 if( is_admin() ){
      $ext_amp_settings = new EXT_AMP_Settings_Page();    

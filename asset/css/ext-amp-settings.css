@@ -8,3 +8,6 @@
 .upload_logo{
     cursor: pointer;
 }
+.hide-field{
+    display: none;
+}

@@ -14,10 +14,14 @@ $header_color            = $this->get_customizer_setting( 'header_color' );
 $text_color = '#505051';
 $content_max_width = absint('1140');
 
+$sprite = EXT__AMP__URL__ . '/asset/img/spritesheet.png';
+
 //get post id 
 $post_id = get_the_ID();
 $attach_id = get_post_thumbnail_id( $post_id );
 $featured_image = wp_get_attachment_image_url( $attach_id, 'full' );
+
+$featured_image = (!empty($featured_image) ? $featured_image : get_option('ext_amp_general_options')['default-image']);
 
 ?>
 /* Generic WP styling */
@@ -87,9 +91,9 @@ figure {
 	padding: 0;
 }
 
-a,
-a:visited {
+a {
 	color: <?php echo sanitize_hex_color( $link_color ); ?>;
+	text-decoration: none;
 }
 
 a:hover,
@@ -312,7 +316,7 @@ h5{
     display: inline-block;
 }
 .nav .socials {
-    margin-right: 5px;
+    margin-right: 40px;
 }
 .nav .socials a {    
     font-size: 18px;
@@ -550,6 +554,10 @@ p {
 .about-author-name{
 	margin-bottom: 25px;
 	font-weight: bold;
+	text-decoration: none;
+}
+.about-author-name:hover{
+	color: #222;
 }
 .about-author-desc{
 	font-size: 16px;
@@ -717,7 +725,8 @@ form.amp-form-submit-error [submit-error]{
   margin-top: 16px;
 }
 form.amp-form-submit-success [submit-success] {
-  color: green;
+	color: <?php echo $text_color; ?>;
+    text-align: left;
 }
 form.amp-form-submit-error [submit-error] {
   color: red;
@@ -958,9 +967,60 @@ footer{
 }
 .amp-footer-copyright {
     float: left;
-    padding: 25px 0 20px 2%;
-    font-size: bold;
+    padding: 25px 0 20px 2%;   
     opacity: .8;
+}
+#amp-footer-navigation{
+	float: right;
+}
+#amp-footer-navigation ul li {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+#amp-footer-navigation ul li a {
+    margin: 25px 12px 20px;
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+    filter: alpha(opacity=@opacity * 100);
+    -moz-opacity: 80;
+    -khtml-opacity: 80;
+    opacity: 80;
+    opacity: .8;
+}
+#amp-footer-navigation ul li a:hover{
+	filter: alpha(opacity=@opacity * 100);
+    -moz-opacity: 100;
+    -khtml-opacity: 100;
+    opacity: 100;
+    opacity: 1;
+}
+
+.widget_nav_menu ul {
+    display: block;
+}
+.widget_nav_menu ul li {
+    width: 50%;
+    float: left;
+    font-size: 13px;
+    position: relative;    
+    font-weight: 300;
+	list-style: none;
+}
+.widget_nav_menu li a{
+	color: white;
+	padding: 5px 15px 0 5px;
+}
+.widget_nav_menu li a:hover{
+	color: #0096cf;
+}
+.widget_nav_menu .mk-svg-icon{ 
+    height: 9px;
+	fill: #0096cf;
+	position: relative;
+    left: -5px;
 }
 
 /*Footer Widget*/
@@ -981,6 +1041,32 @@ footer{
     position: relative;
 	min-height: 502px;
 }
+
+.col-widget:before{
+	background-image: url(<?php echo $sprite; ?>);
+    background-repeat: no-repeat;
+    display: block;
+    background-color: #0096cf;
+    border-radius: 100%;
+    box-shadow: 0 0 32px rgba(0,150,207,0.4);
+    content: "";
+    height: 44px;
+    position: absolute;
+    right: -22px;
+    top: 26px;
+    width: 44px;
+}
+.col-widget-1:before{
+	background-position: -51px -2px;
+}
+.col-widget-2:before{
+	background-position: -50px -52px;
+}
+.col-widget-3:before{
+	background-position: -1px -6px;
+}
+
+
 #amp-footer-top .widget .widget-title {
     color: #505051;
     font-size: 22px;
@@ -989,6 +1075,7 @@ footer{
 	margin: 0 0 20px;
     text-transform: uppercase;
 }
+
 
 /*Social Share*/
 .amp-social-share-facebook.custom-style{
@@ -1002,124 +1089,7 @@ footer{
 
 /*Responsive Design*/
 
-@media (max-width: 1024px){
-	#amp-footer-top .col-widget{
-		min-height: 487px;
-	}
-}
-
-@media (max-width: 991px){
-	#amp-footer-top{
-		padding: 45px 0;
-	}
-	#amp-footer-top .col-widget{
-		max-width: 100%;
-		margin: 40px 0;
-		min-height: auto;
-	}
-	#amp-footer-top .widget .widget-title{
-		margin-top: 20px;
-		text-align: center;
-		width: 100%;
-	}
-}
-@media (max-width: 768px){
-	
-	.amp-col-1-3 {
-		width: 100%;
-	}
-	[class*=amp-col-]{
-		width: auto;
-		float: none;
-		margin-left: 0;
-		margin-right: 0;
-		margin-bottom: 20px;
-		padding-left: 20px;
-		padding-right: 20px;
-	}
-}
-@media (max-width: 767px){
-	.amp-wp-header {
-		height: 112px;
-		position: absolute;
-	}
-	.call-us{
-		top: 80px;
-    	position: absolute;
-		width: auto;
-	}
-	#logo {
-		position: relative;		
-		width: auto;
-		top: -13px;
-	}
-	.nav {
-		float: right;
-		position: absolute;
-		right: 0;
-		width: auto;
-	}
-	.nav .socials {
-		position: absolute;
-		right: 0;
-		display: inline-flex;
-		margin-top: 64px;
-	}
-	.socials .mk-header-social {
-		margin-right: 0!important;
-	}
-	.socials .mk-header-social ul li {
-		display: table-cell;
-	}
-
-	.vertical-st-menu {
-		margin-top: 112px;
-	}
-	.vertical-st-menu ul li a {
-		font-size: 18px;
-	}
-
-}
-
-@media (max-width: 480px){
-	.call-us {
-		padding: 0 10px;		
-	}
-	.nav .socials {
-		margin-right: 0;
-	}
-	.vertical-st-menu {
-		width: 90%;
-		padding-top: 150px;
-		height: 100%;
-		margin-top: 0;
-		overflow-y: scroll;
-		position: absolute;
-	}		
-	.vertical-st-menu ul li a {
-		padding: 20px 0 20px;
-		font-size: 22px;
-	}
-	.vertical-st-menu ul li {
-		display: block;
-	}
-	#close-vertical-menu {
-		top: 111px;
-		right: 0;
-	}
-}
-
-@media (max-width: 320px){
-	.call-us {
-		font-size: 14px;
-	}
-	.nav .socials a {
-		font-size: 16px;
-	}
-}
-
-
-@media only screen and (min-device-width: 481px) and (max-device-width: 1336px){
+@media only screen and (min-device-width: 300px) and (max-device-width: 1336px) and (orientation: landscape){
 	#close-vertical-menu {
 		top: 8px;
 		right: 5px;
@@ -1155,6 +1125,185 @@ footer{
 		top: 62px;
 	}
 }
+
+
+@media (max-width: 1024px){
+	#amp-footer-top .col-widget{
+		min-height: 487px;
+	}
+	.nav .socials {
+		margin-right: 10px;
+	}
+}
+
+@media (max-width: 991px){
+	#amp-footer-top{
+		padding: 45px 0;
+	}
+	#amp-footer-top .col-widget{
+		max-width: 100%;
+		margin: 40px 0;
+		min-height: auto;
+	}
+	#amp-footer-top .widget .widget-title{
+		margin-top: 20px;
+		text-align: center;
+		width: 100%;
+	}
+	.col-widget:before{
+		left: 0;
+		top: -24px;
+		right: 0;
+		margin: 0 auto;
+	}
+}
+@media (max-width: 768px){
+	
+	.amp-col-1-3 {
+		width: 100%;
+	}
+	[class*=amp-col-]{
+		width: auto;
+		float: none;
+		margin-left: 0;
+		margin-right: 0;
+		margin-bottom: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	#amp-footer .widget{
+		position: relative;
+		display: inline-block;
+		width: 100%;
+	}
+}
+@media (max-width: 767px){
+	.amp-wp-header {
+		height: 112px;
+		position: absolute;
+	}
+	.call-us{
+		top: 80px;
+    	position: absolute;
+		width: auto;
+	}
+	#logo {
+		position: relative;		
+		width: auto;
+		top: -13px;
+	}
+	.nav {
+		float: right;
+		position: absolute;
+		right: 0;
+		width: auto;
+	}
+	.nav .socials {
+		position: absolute;
+		right: 0;
+		display: inline-flex;
+		margin-top: 64px;
+	}
+	.socials .mk-header-social {
+		margin-right: 0;
+	}
+	.socials .mk-header-social ul li {
+		display: table-cell;
+	}
+
+	.vertical-st-menu {
+		margin-top: 112px;
+	}
+	.vertical-st-menu ul li a {
+		font-size: 18px;
+	}
+
+	#amp-footer .widgettitle{
+		text-align: center;
+	}
+	#amp-footer .widget{
+		text-align: center;
+	}
+	.widget_nav_menu ul {		
+		display: inline-block;
+		margin: 0 auto;
+		max-width: 360px;
+		padding-left: 20px;
+		text-align: left;
+		vertical-align: top;
+		width: 100%;
+	}
+	.amp-footer-copyright {
+		display: block;
+		float: none;
+		text-align: center;
+		clear: both;
+		padding: 10px 10px 5px;
+	}
+	#amp-footer-navigation {
+		float: none;
+		width: auto;
+		text-align: center;
+	}
+	#amp-footer-navigation ul{
+		margin: 0;
+	}
+	#amp-footer-navigation ul li {		
+		width: 100%;
+		display: block;
+	}
+	#amp-footer-navigation ul li a {
+		margin: 5px auto;
+		line-height: 1em;
+	}
+}
+
+@media (max-width: 480px){
+	.call-us {
+		padding: 0 10px;		
+	}
+	.nav .socials {
+		margin-right: 0;
+	}
+	.vertical-st-menu {
+		width: 90%;
+		padding-top: 150px;
+		height: 100%;
+		margin-top: 0;
+		overflow-y: scroll;
+		position: absolute;
+	}		
+	.vertical-st-menu ul li a {
+		padding: 20px 0 20px;
+		font-size: 22px;
+	}
+	.vertical-st-menu ul li {
+		display: block;
+	}
+	#close-vertical-menu {
+		top: 111px;
+		right: 0;
+	}
+	
+}
+@media (max-width: 360px){
+	.widget_nav_menu ul{
+		max-width: 200px;
+	}
+	.widget_nav_menu ul li {
+		width: 100%;
+	}
+}
+
+@media (max-width: 320px){
+	.call-us {
+		font-size: 14px;
+	}
+	.nav .socials a {
+		font-size: 16px;
+	}
+}
+
 
 @keyframes homeCycle
 {

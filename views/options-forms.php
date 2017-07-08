@@ -142,7 +142,7 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
         $content = isset( $this->options['message'] ) ? esc_attr( $this->options['message']) : '';
             
         $content = $this->helper->raw_str_to_html($content);
-
+       
         wp_editor( $content, 'ext-amp-form-message', $settings );
         
         /*printf(

@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
             },        
             multiple: false	// Set to true to allow multiple files to be selected
         });    
-        console.log(wp.media.frames.file_frame);
+        //console.log(wp.media.frames.file_frame);
 
         // When an image is selected, run a callback.
         file_frame.on( 'select', function() {

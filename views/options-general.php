@@ -102,6 +102,13 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
             'general_settings_section'
         );
         add_settings_field(
+            'sub_footer_text', 
+            'Sub Footer Copyright Text', 
+            array( $this, 'sub_footer_text_callback' ), 
+            'ext_amp_general_options', 
+            'general_settings_section'
+        );
+        add_settings_field(
             'extra_css', 
             'Extra CSS', 
             array( $this, 'extra_css_callback' ), 
@@ -213,6 +220,15 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
 
         echo $html;
     }
+    public function sub_footer_text_callback()
+    {
+        $this->options = get_option('ext_amp_general_options');
+        $default_credit = 'Copyright All Rights Reserved &copy; ' . date('Y');
+        printf(
+            '<textarea type="text" rows="10" class="ext_input" id="sub_footer_text" name="ext_amp_general_options[sub-footer-text]"/>%s</textarea>',
+            isset( $this->options['sub-footer-text'] ) ? esc_attr( $this->options['sub-footer-text']) : $default_credit
+        );
+    } 
     public function extra_css_callback()
     {
         $this->options = get_option('ext_amp_general_options');
@@ -259,6 +275,9 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
         
         if( isset( $input['header-font'] ) )
             $new_input['header-font'] = sanitize_text_field($input['header-font'] );
+            
+        if( isset( $input['sub-footer-text'] ) )
+            $new_input['sub-footer-text'] = wp_kses($input['sub-footer-text'], array( 'strong' => array(), 'a' => array("href" => array() ), 'span' => array() ) );
 
         if( isset( $input['extra-css'] ) )
             $new_input['extra-css'] = $this->helper->sanitize_css_styling($input['extra-css'] );
