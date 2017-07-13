@@ -1,4 +1,9 @@
 <?php
+
+$sprite = EXT__AMP__URL__ . '/asset/img/spritesheet.png';
+$styling_options = get_option('ext_amp_styling_options');
+$general_options = get_option('ext_amp_general_options');
+
 // Get content width
 //$content_max_width       = absint( $this->get( 'content_max_width' ) );
 
@@ -7,21 +12,22 @@ $theme_color             = $this->get_customizer_setting( 'theme_color' );
 //$text_color              = $this->get_customizer_setting( 'text_color' );
 $muted_text_color        = $this->get_customizer_setting( 'muted_text_color' );
 $border_color            = $this->get_customizer_setting( 'border_color' );
-$link_color              = $this->get_customizer_setting( 'link_color' );
+//$link_color              = $this->get_customizer_setting( 'link_color' );
 $header_background_color = $this->get_customizer_setting( 'header_background_color' );
 $header_color            = $this->get_customizer_setting( 'header_color' );
 
-$text_color = '#505051';
+$body_font = !empty($styling_options['body-font-name']) ? $styling_options['body-font-name'] . ',' : '';
+$header_font = !empty($styling_options['header-font-name']) ? $styling_options['header-font-name'] . ',' : '';
+$text_color = (!empty($styling_options['text-color'])) ? $styling_options['text-color'] : '#505051';
+$link_color = (!empty($styling_options['link-color'])) ? $styling_options['link-color'] : '#0a89c0';
 $content_max_width = absint('1140');
-
-$sprite = EXT__AMP__URL__ . '/asset/img/spritesheet.png';
 
 //get post id 
 $post_id = get_the_ID();
 $attach_id = get_post_thumbnail_id( $post_id );
 $featured_image = wp_get_attachment_image_url( $attach_id, 'full' );
 
-$featured_image = (!empty($featured_image) ? $featured_image : get_option('ext_amp_general_options')['default-image']);
+$featured_image = (!empty($featured_image) ? $featured_image : $general_options['default-image']);
 
 ?>
 /* Generic WP styling */
@@ -77,7 +83,7 @@ $featured_image = (!empty($featured_image) ? $featured_image : get_option('ext_a
 body {
 	background: <?php echo sanitize_hex_color( $theme_color ); ?>;
 	color: <?php echo sanitize_hex_color( $text_color ); ?>;
-	font-family: Lato;
+	font-family: <?php echo $body_font; ?> -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", "Times New Roman", sans-serif;
 	font-weight: 400;	
 	line-height: 1.40em;
 	font-size: 14px;	
@@ -263,19 +269,34 @@ blockquote p:last-child {
 .amp-wp-comments-link,
 .amp-wp-footer p,
 .back-to-top {
-	font-family: Lato;
+	font-family: inherit;
 }
 
 /* Header */
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "Josefin Sans";
+    font-family: <?php echo $header_font; ?> -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", "Times New Roman", sans-serif;
 }
-h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
 	color:<?php echo sanitize_hex_color( $text_color ); ?>;
+}
+h1{
+	font-size: 60px;
+}
+h2{
+	font-size: 50px;
+}
+h3{
+	font-size: 26px;
+}
+h4{
+	font-size: 23px;
 }
 h5{
 	font-size: 18px;
+}
+h6{
+	font-size: 14px;
 }
 .call-us, #logo, .nav {
     display: table-cell;

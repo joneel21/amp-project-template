@@ -62,6 +62,11 @@ class EXT_AMP_Helper{
         return $html_output;
 
     }
+    public function extract_google_web_font($font){      
+        $font = explode(':', $font)[0];
+        $font = preg_replace("/\+/", ' ', $font);
+        return $font;
+    }
     public function get_google_web_font(){
         $url = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAAs8YkBD-38XV-s3huhCHIgFbGc8YISTs';
         $cURL = curl_init();

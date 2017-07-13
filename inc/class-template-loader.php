@@ -1,5 +1,4 @@
 <?php
-
 class EXT_AMP_Post_Template {
     private $template_dir;
 

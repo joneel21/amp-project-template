@@ -31,15 +31,7 @@ if( isset($_POST['name']) && isset($_POST['email']) ){
     header("Access-Control-Allow-Origin: *.ampproject.org");
     header("AMP-Access-Control-Allow-Source-Origin: ".$domain_url);
 
-    if( $_POST['email'] == 'email@test.com' ){ //-->SAMPLE Valiation!
-        //-->Any 40X status code! 
-        //Reference-1: https://github.com/ampproject/amphtml/issues/6058
-        //Reference-2: http://php.net/manual/pt_BR/function.http-response-code.php
-        header("HTTP/1.0 412 Precondition Failed", true, 412);
-        echo json_encode(array('errmsg'=>'This email already exist!'));
-        die();
-    }
-    elseif( !isset($_POST['ext_amp_contact_form']) || !wp_verify_nonce($_POST['ext_amp_contact_form'], 'ext_amp_contact_form')){
+    if( !isset($_POST['ext_amp_contact_form']) || !wp_verify_nonce($_POST['ext_amp_contact_form'], 'ext_amp_contact_form')){
         header("HTTP/1.0 412 Precondition Failed", true, 412);
         echo json_encode(array('errmsg' => 'Sorry, your request did not verify!'));
         die();

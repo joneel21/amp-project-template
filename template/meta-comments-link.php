@@ -1,3 +1,4 @@
+
 <?php
 $comments_link_url = $this->get( 'comments_link_url' );
 ?>

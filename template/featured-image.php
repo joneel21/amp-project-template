@@ -1,3 +1,4 @@
+
 <?php
 $post_id = get_the_ID();
 $featured_image = get_the_post_thumbnail( $post_id, 'full' );

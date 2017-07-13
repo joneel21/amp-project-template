@@ -5,12 +5,14 @@
     Description: Extended AMP template for posts page only. This plugin requires AMP by automattic to work properly.
     Author: BlueFox Developer
     Version: 1.0
+    Text Domain: ext-amp
     Author URI: https://www.meetbluefox.com
     */
 
 define( 'EXT__AMP__FILE__', __FILE__ );
 define( 'EXT__AMP__DIR__', dirname( __FILE__ ) );
 define( 'EXT__AMP__URL__', plugins_url() . '/amp-project-template');
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 class EXT_AMP_Settings_Page
 {
@@ -23,12 +25,16 @@ class EXT_AMP_Settings_Page
     private $options;
     private $options_forms;
     private $class;
-    //private $general_options = EXT_AMP_General_Options;
+
     /**
      * Start up
      */
     public function __construct()
     {
+        $amp_check = plugin_dir_path(__DIR__) . 'amp/amp.php';
+        if( !file_exists( $amp_check ) || !is_plugin_active( 'amp/amp.php' ) ){
+            add_action( 'admin_notices', array($this, 'admin_notice__error') );             
+        } 
         
         register_activation_hook(__FILE__, array( $this, 'activate') );
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
@@ -40,11 +46,13 @@ class EXT_AMP_Settings_Page
         add_action( 'admin_init', array( $this, 'ext_amp_forms_options' ) ); 
 
         add_action( 'admin_enqueue_scripts', array($this, 'wp_enqueue_admin_assets') );     
-
+        
     }    
     
-    public function activate(){      
+    public function activate(){ 
+        
         $this->init_options();   
+
         //update_option('ext_amp_tmpl_ver', SELF::VER);
         //add_option('ext_amp_tmpl_db_ver', SELF::DB_VER);    
     }
@@ -70,14 +78,17 @@ class EXT_AMP_Settings_Page
     
     public function init_options(){
         //set default value
-        $default_values = array(
+        $default_general_values = array(
             'site-icon' => '',
-            'site-logo' => 'location',
-            'featured-img-default' => '',
-            'amp-custom-css' => '',
-            'amp-custom-element' => '',
-            'amp-font' => '',
-            'amp-analytics-code' => ''
+            'default-image' => '',
+            'phone-number' => '',
+            'facebook' => '',
+            'google-plus' => '',
+            'twitter' => '',
+            'linkedin' => '',
+            'youtube' => '',
+            'instagram' => '',
+            'sub-footer-text' => 'Copyright All Rights Reserved &copy; ' . date('Y')
         );
         
         $default_form_values = array(
@@ -92,7 +103,7 @@ class EXT_AMP_Settings_Page
         );
 
         if( false == get_option( 'ext_amp_general_options' ) ) {  
-            add_option( 'ext_amp_general_options' );
+            add_option( 'ext_amp_general_options', $default_general_values );
         }    
         if( false == get_option( 'ext_amp_styling_options' ) ) {  
             add_option( 'ext_amp_styling_options' );
@@ -139,20 +150,19 @@ class EXT_AMP_Settings_Page
 
         wp_enqueue_style('ext_amp_css', EXT__AMP__URL__ . '/asset/css/ext-amp-settings.css', array(), false);
         wp_enqueue_script('ext_amp_js', EXT__AMP__URL__ . '/asset/js/ext-amp-media-upload.js', array('jquery', 'jquery-ui-core'), false); 
-        wp_enqueue_script( 'custom-script-handle', EXT__AMP__URL__ . '/asset/js/ext-amp-color-picker.js', array( 'wp-color-picker' ), false, false ); 
+        wp_enqueue_script( 'ext_amp_color_picker', EXT__AMP__URL__ . '/asset/js/ext-amp-color-picker.js', array( 'wp-color-picker' ), false, false ); 
            
     }   
-   
+    
+    public function admin_notice__error() {
+        $class = 'notice notice-error';
+        
+        $message = __( 'AMP Plugin by Automattic is required for AMP Extension Template to work.', 'ext-amp' );
+
+        printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
+    }  
+
 }
-
-
-/*function sample_admin_notice__error() {
-	$class = 'notice notice-error';
-	$message = __( 'Irks! An error has occurred.', 'sample-text-domain' );
-
-	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
-}
-add_action( 'admin_notices', 'sample_admin_notice__error' );*/
 
 function ext_amp_load_template_actions(){
     require_once (EXT__AMP__DIR__ . '/views/options-general.php');

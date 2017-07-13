@@ -14,9 +14,11 @@ function custom_template_data($data){
     $fontawesome = array(
         'fontawesome' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
     );
-     
-    $get_body_font = get_option('ext_amp_general_options')['body-font'];
-    $get_header_font = get_option('ext_amp_general_options')['header-font'];
+
+	$option = get_option('ext_amp_styling_options');
+
+    $get_body_font = $option['body-font'];
+    $get_header_font = $option['header-font'];
    
     if(!empty($get_body_font) || !empty($get_header_font)){        
         $google_font_url = 'https://fonts.googleapis.com/css?family='; 
@@ -38,7 +40,7 @@ add_action( 'amp_post_template_css', 'ext_amp_my_additional_css_styles' );
 
 function ext_amp_my_additional_css_styles( $amp_template ) {
 	// only CSS here please...
-    $ext_amp_css = get_option('ext_amp_general_options');
+    $ext_amp_css = get_option('ext_amp_styling_options');
     echo $ext_amp_css['extra-css'];
 }
 

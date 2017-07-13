@@ -1,0 +1,1 @@
+[08-Jul-2017 04:35:34 UTC] PHP Fatal error:  Call to undefined function plugins_url() in /home/rdtisofdev/public_html/tradesgenie/wp-content/plugins/amp-project-template/amp-project-template.php on line 13

@@ -1,3 +1,4 @@
+
 <?php 
 	$general_option = get_option('ext_amp_general_options');
 	
