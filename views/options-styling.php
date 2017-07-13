@@ -166,8 +166,7 @@ class EXT_AMP_Styling_Options extends EXT_AMP_Settings_Page {
      * Print the Section text
      */
     public function settings_description()
-    {	             
-        var_dump(get_option('ext_amp_styling_options'));
+    {            
         //print '<p>Enter your settings below:<p>';
         return;
     }

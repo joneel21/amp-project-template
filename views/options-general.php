@@ -229,10 +229,7 @@ class EXT_AMP_General_Options extends EXT_AMP_Settings_Page {
      * Print the Section text
      */
     public function settings_description()
-    {	             
-        
-        var_dump(plugin_dir_path(__DIR__));               
-      
+    {	                         
         //print '<p>Enter your settings below:<p>';
         return;
     }

@@ -3,7 +3,7 @@
     Plugin Name: AMP Extension Template
     Plugin URI: https://www.meetbluefox.com
     Description: Extended AMP template for posts page only. This plugin requires AMP by automattic to work properly.
-    Author: BlueFox Developer
+    Author: BlueFox DevOps
     Version: 1.0
     Text Domain: ext-amp
     Author URI: https://www.meetbluefox.com

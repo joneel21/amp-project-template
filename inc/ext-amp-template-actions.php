@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'amp_post_template_data', 'custom_template_data', 10, 2 );
+add_filter( 'amp_post_template_data', 'custom_template_data', 20, 2 );
 
 function custom_template_data($data){  
     
@@ -45,7 +45,7 @@ function ext_amp_my_additional_css_styles( $amp_template ) {
 }
 
 //Filter Default Template File Location
-add_filter( 'amp_post_template_file', 'ext_amp_set_custom_template', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_set_custom_template', 20, 3 );
 
 function ext_amp_set_custom_template( $file, $type, $post ) {
 	if ( 'single' === $type ) {
@@ -53,7 +53,7 @@ function ext_amp_set_custom_template( $file, $type, $post ) {
 	}
 	return $file;
 }
-add_filter( 'amp_post_template_file', 'ext_amp_custom_style', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_custom_style', 20, 3 );
 
 function ext_amp_custom_style( $file, $type, $post ) {
 	if ( 'style' === $type ) {
@@ -61,7 +61,7 @@ function ext_amp_custom_style( $file, $type, $post ) {
 	}
 	return $file;
 }
-add_filter( 'amp_post_template_file', 'ext_amp_custom_header', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_custom_header', 20, 3 );
 
 function ext_amp_custom_header( $file, $type, $post ) {
 	if ( 'header-bar' === $type ) {
@@ -69,7 +69,7 @@ function ext_amp_custom_header( $file, $type, $post ) {
 	}
 	return $file;
 }
-add_filter( 'amp_post_template_file', 'ext_amp_custom_featured_image', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_custom_featured_image', 20, 3 );
 
 function ext_amp_custom_featured_image( $file, $type, $post ) {
 	if ( 'featured-image' === $type ) {
@@ -77,7 +77,7 @@ function ext_amp_custom_featured_image( $file, $type, $post ) {
 	}
 	return $file;
 }
-add_filter( 'amp_post_template_file', 'ext_amp_custom_meta_author', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_custom_meta_author', 20, 3 );
 
 function ext_amp_custom_meta_author( $file, $type, $post ) {
 	if ( 'meta-author' === $type ) {
@@ -86,7 +86,7 @@ function ext_amp_custom_meta_author( $file, $type, $post ) {
 	return $file;
 }
 
-add_filter( 'amp_post_template_file', 'ext_amp_custom_meta_time', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_custom_meta_time', 20, 3 );
 function ext_amp_custom_meta_time( $file, $type, $post ) {
 	if ( 'meta-time' === $type ) {
 		$file = EXT__AMP__DIR__ . '/template/meta-time.php';
@@ -94,7 +94,7 @@ function ext_amp_custom_meta_time( $file, $type, $post ) {
 	return $file;
 }
 
-add_filter( 'amp_post_template_file', 'ext_amp_custom_footer', 10, 3 );
+add_filter( 'amp_post_template_file', 'ext_amp_custom_footer', 20, 3 );
 
 function ext_amp_custom_footer( $file, $type, $post ) {
 	if ( 'footer' === $type ) {
@@ -103,7 +103,7 @@ function ext_amp_custom_footer( $file, $type, $post ) {
 	return $file;
 }
 
-add_filter( 'amp_post_template_metadata', 'ext_amp_modify_json_metadata', 10, 2 );
+add_filter( 'amp_post_template_metadata', 'ext_amp_modify_json_metadata', 20, 2 );
 
 function ext_amp_modify_json_metadata( $metadata, $post ) {
 	//$metadata['@type'] = 'NewsArticle';

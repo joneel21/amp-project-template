@@ -115,7 +115,7 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
     public function reply_to_callback(){
        
         printf(
-            '<input type="email" id="reply_to" class="ext_input" name="ext_amp_forms_options[reply-to]" value="%s" />',
+            '<input type="text" id="reply_to" class="ext_input" name="ext_amp_forms_options[reply-to]" value="%s" />',
             isset( $this->options['reply-to'] ) ? esc_attr( $this->options['reply-to']) : ''
         );
     } 
@@ -177,7 +177,7 @@ class EXT_AMP_Forms_Options extends EXT_AMP_Settings_Page{
             $new_input['from-email'] = sanitize_email( $input['from-email'] );
         
         if( isset( $input['reply-to'] ) )
-            $new_input['reply-to'] = sanitize_email( $input['reply-to'] );
+            $new_input['reply-to'] = sanitize_text_field( $input['reply-to'] );
         
         if( isset( $input['bcc'] ) )
             $new_input['bcc'] = sanitize_email( $input['bcc'] );
